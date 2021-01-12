@@ -7,12 +7,12 @@ use DreamCommerce\ShopAppstoreBundle\DependencyInjection\DreamCommerceShopAppsto
 use DreamCommerce\ShopAppstoreBundle\Handler\Application;
 use DreamCommerce\ShopAppstoreBundle\Model\ShopRepositoryInterface;
 use DreamCommerce\ShopAppstoreBundle\Utils\TokenRefresher;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RefreshTokensCommand extends ContainerAwareCommand
+class RefreshTokensCommand extends Command
 {
     /**
      * {@inheritdoc}

@@ -3,15 +3,43 @@
 namespace DreamCommerce\ShopAppstoreBundle\Command;
 
 use DreamCommerce\ShopAppstoreBundle\Handler\Application;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use DreamCommerce\ShopAppstoreBundle\Handler\ApplicationRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class WebhooksCommand extends ContainerAwareCommand
+class WebhooksCommand extends Command
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private UrlGeneratorInterface $urlGenerator;
+    private array $appsConfiguration;
+    /**
+     * @var ApplicationRegistry
+     */
+    private ApplicationRegistry $applicationRegistry;
+    private array $webhooksConfiguration;
+
+    public function __construct(
+        UrlGeneratorInterface $urlGenerator,
+        ApplicationRegistry $applicationRegistry,
+        array $appsConfiguration,
+        array $webhooksConfiguration
+    )
+    {
+        parent::__construct();
+        $this->urlGenerator = $urlGenerator;
+        $this->appsConfiguration = $appsConfiguration;
+        $this->applicationRegistry = $applicationRegistry;
+        $this->webhooksConfiguration = $webhooksConfiguration;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -34,17 +62,14 @@ class WebhooksCommand extends ContainerAwareCommand
             return;
         }
 
-        $apps = $this->getContainer()->getParameter('dream_commerce_shop_appstore.apps');
-        $registry = $this->getContainer()->get('dream_commerce_shop_appstore.apps');
-
         $app = $input->getArgument('app');
         if(!$app){
-            foreach(array_keys($apps) as $app) {
-                $obj = $registry->get($app);
+            foreach(array_keys($this->appsConfiguration) as $app) {
+                $obj = $this->applicationRegistry->get($app);
                 $this->displayAppWebhooks($obj, $output);
             }
         }else{
-            $obj = $registry->get($app);
+            $obj = $this->applicationRegistry->get($app);
             if(!$obj){
                 throw new \Exception(sprintf('App "%s" not found', $app));
             }
@@ -74,7 +99,7 @@ class WebhooksCommand extends ContainerAwareCommand
 
             $result[] = [
                 $k,
-                $this->getContainer()->get('router')->generate($routeName, $routeParams),
+                $this->urlGenerator->generate($routeName, $routeParams),
                 $v['secret'],
                 $events
             ];
@@ -91,9 +116,9 @@ class WebhooksCommand extends ContainerAwareCommand
     protected function displayGlobalWebhooks(OutputInterface $output){
 
         $output->writeln('<info>Globally registered webhooks</info>');
-        $globalWebhooks = $this->getContainer()->getParameter('dream_commerce_shop_appstore.webhooks');
+        //$globalWebhooks = $this->getContainer()->getParameter('dream_commerce_shop_appstore.webhooks');
 
-        $this->renderWebhooks($globalWebhooks, $output);
+        $this->renderWebhooks($this->webhooksConfiguration, $output);
 
     }
 

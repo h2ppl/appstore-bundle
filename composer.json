@@ -3,11 +3,12 @@
     "description": "Symfony bundle for DreamCommerce-based shops application",
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
-        "dreamcommerce/shop-appstore-lib": "~1.2"
+        "php": ">=7.4.0",
+        "symfony/console": "4.4.*",
+        "dreamcommerce/shop-appstore-lib": "~1.2",
+        "symfony/routing": "4.4.*"
     },
     "require-dev": {
-        "symfony/symfony": "~2.8",
         "phpunit/phpunit": "~5.3"
     },
     "autoload": {
@@ -18,7 +19,7 @@
     "authors": [
         {
             "name": "Przemysław eRIZ Pawliczuk",
-            "email": "przemyslaw.pawliczuk@shoper.pl"
+            "email": "przemyslaw.pawliczuk@h2p.pl"
         }
     ]
 }

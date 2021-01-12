@@ -91,5 +91,13 @@
         <service id="dream_commerce_shop_appstore.command.webhooks" class="%dream_commerce_shop_appstore.command.webhooks.class%">
             <tag name="console.command" />
         </service>
+
+        <service id="DreamCommerce\ShopAppstoreBundle\Command\LogViewCommand">
+            <argument type="expression" id="$logDir">%kernel.log_dir%</argument>
+        </service>
+
+        <service id="DreamCommerce\ShopAppstoreBundle\Command\WebhooksCommand">
+            <argument type="expression" id="$appsConfiguration">%dream_commerce_shop_appstore.webhooks%</argument>
+        </service>
     </services>
 </container>
