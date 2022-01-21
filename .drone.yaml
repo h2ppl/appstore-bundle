@@ -2,6 +2,8 @@ kind: pipeline
 type: kubernetes
 name: release_new_version
 
+# touch
+
 steps:
     -   name: push_to_nexus
         image: composer:2.1.12
