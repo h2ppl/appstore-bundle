@@ -90,5 +90,27 @@
             <tag name="console.command" />
         </service>
 
+        <!-- controller -->
+        <service id="dream_commerce_shop_appstore.controller.responder" class="DreamCommerce\ShopAppstoreBundle\Controller\ResponderController">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="dream_commerce_shop_appstore.controller.webhook" class="DreamCommerce\ShopAppstoreBundle\Controller\WebhookController">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="dream_commerce_shop_appstore.controller.exception" class="DreamCommerce\ShopAppstoreBundle\Controller\ExceptionController">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+
     </services>
 </container>
